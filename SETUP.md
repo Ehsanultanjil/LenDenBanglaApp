@@ -105,15 +105,23 @@ Local debug builds are signed with Android's *debug* keystore, which is a differ
 key from the one EAS uses. Google checks the signature, so it needs this fingerprint
 or sign-in fails.
 
-Get the fingerprint:
+Expo ships a debug keystore inside the generated `android/` folder — note it is
+*not* the usual `~/.android/debug.keystore`:
 
 ```powershell
 & "C:\Program Files\Android\Android Studio\jbr\bin\keytool.exe" -list -v `
-  -keystore "$env:USERPROFILE\.android\debug.keystore" `
+  -keystore "android\app\debug.keystore" `
   -alias androiddebugkey -storepass android -keypass android
 ```
 
-Copy the **SHA1** line (looks like `A1:B2:C3:…`).
+Copy the **SHA1** line. For this project it is:
+
+```
+5E:8F:16:06:2E:A3:CD:2C:4A:0D:54:78:76:BA:A6:F3:8C:AB:F6:25
+```
+
+> This is React Native's stock debug key, shared by every RN project — fine for
+> development, but never ship a release build signed with it.
 
 Then Google Cloud Console → Credentials → **Create OAuth client ID**:
 - Application type: **Android**
