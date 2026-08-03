@@ -50,6 +50,7 @@ function RootNavigator({ fontsLoaded }: { fontsLoaded: boolean }) {
 
   return (
     <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#090B10' } }}>
+      <Stack.Screen name="index" />
       <Stack.Protected guard={!!session}>
         <Stack.Screen name="(tabs)" />
       </Stack.Protected>
