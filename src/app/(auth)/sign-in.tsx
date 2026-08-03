@@ -44,7 +44,7 @@ export default function SignInScreen() {
         <View className="w-20 h-20 rounded-3xl bg-accent items-center justify-center mb-6">
           <Wallet size={38} color="#090B10" strokeWidth={2.2} />
         </View>
-        <Text className="text-4xl font-bold text-text-primary">Khoroch</Text>
+        <Text className="text-4xl font-bold text-text-primary">LenDen Bangla</Text>
         <Text className="text-base text-text-secondary text-center mt-3 leading-relaxed">
           {strings.auth.tagline}
         </Text>

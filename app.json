@@ -1,19 +1,19 @@
 {
   "expo": {
-    "name": "Khoroch",
-    "slug": "khoroch",
+    "name": "LenDen Bangla",
+    "slug": "lenden-bangla",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "khoroch",
+    "scheme": "lendenbangla",
     "userInterfaceStyle": "dark",
     "backgroundColor": "#090B10",
     "ios": {
       "icon": "./assets/expo.icon",
-      "bundleIdentifier": "com.khoroch.app"
+      "bundleIdentifier": "com.LenDenbangla.app"
     },
     "android": {
-      "package": "com.khoroch.app",
+      "package": "com.LenDenbangla.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -42,6 +42,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "eda67566-21e9-4dce-9b5f-e8b0d2b723d3"
+      }
     }
   }
 }
