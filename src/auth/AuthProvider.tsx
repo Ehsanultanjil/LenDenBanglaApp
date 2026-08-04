@@ -14,6 +14,7 @@ interface AuthContextValue {
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -84,6 +85,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         const { error } = await supabase.auth.signOut();
         if (error) throw error;
+      },
+      deleteAccount: async () => {
+        // Deletes the auth user server-side; every table cascades off it.
+        const { error } = await supabase.rpc('delete_my_account');
+        if (error) throw error;
+
+        try {
+          await GoogleSignin.signOut();
+        } catch {
+          // Account is already gone — a failure to clear the Google picker
+          // must not surface as a deletion failure.
+        }
+        await supabase.auth.signOut();
       },
     }),
     [session, loading]

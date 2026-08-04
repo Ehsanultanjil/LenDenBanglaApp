@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, ScrollView } from 'react-native';
-import { Phone, Bell, Plus, ArrowUpRight, ArrowDownRight, History } from 'lucide-react-native';
+import { Phone, Plus, ArrowUpRight, ArrowDownRight, History } from 'lucide-react-native';
 import { PageHeader } from '@/components/PageHeader';
 import { Sheet } from '@/components/Sheet';
 import { PressableScale } from '@/components/PressableScale';
@@ -148,14 +148,6 @@ export default function DebtScreen() {
                             {formatCurrency(parseFloat(debt.lastPayment))} · {formatDate(debt.lastPaymentDate!)}
                           </Text>
                         </View>
-                        <View className="flex-row gap-2">
-                          <View className="w-9 h-9 rounded-full bg-card-hover items-center justify-center">
-                            <Bell size={14} color="#94A3B8" />
-                          </View>
-                          <View className="w-9 h-9 rounded-full bg-accent/10 items-center justify-center">
-                            <Plus size={14} color="#46D6A8" />
-                          </View>
-                        </View>
                       </View>
                     )}
                   </PressableScale>
@@ -231,16 +223,8 @@ export default function DebtScreen() {
               )}
             </View>
 
-            <View className="flex-row gap-3 mt-6">
-              <PressableScale className="flex-1 py-4 rounded-2xl bg-card flex-row items-center justify-center gap-2">
-                <Bell size={18} color="#FFFFFF" />
-                <Text className="text-text-primary text-base font-semibold">{t.remind}</Text>
-              </PressableScale>
-              <PressableScale className="flex-1 py-4 rounded-2xl bg-accent flex-row items-center justify-center gap-2">
-                <Plus size={18} color="#090B10" />
-                <Text className="text-bg text-lg font-bold">{t.addPayment}</Text>
-              </PressableScale>
-            </View>
+            {/* "Remind" and "Add Payment" intentionally omitted until they do
+                something — Play rejects apps for non-functional controls. */}
           </View>
         )}
       </Sheet>

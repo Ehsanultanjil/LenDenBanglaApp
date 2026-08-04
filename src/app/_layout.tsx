@@ -1,6 +1,7 @@
 import '../global.css';
 
 import { useEffect } from 'react';
+import { View } from 'react-native';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -21,8 +22,14 @@ import {
 } from '@expo-google-fonts/hind-siliguri';
 import { LanguageProvider } from '@/i18n/LanguageProvider';
 import { AuthProvider, useAuth } from '@/auth/AuthProvider';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
+import { OfflineBanner } from '@/components/OfflineBanner';
+import { startNetworkWatcher } from '@/lib/network';
 
 SplashScreen.preventAutoHideAsync();
+
+// Lets React Query tell "offline" apart from "request failed".
+startNetworkWatcher();
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,15 +56,18 @@ function RootNavigator({ fontsLoaded }: { fontsLoaded: boolean }) {
   if (!ready) return null;
 
   return (
-    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#090B10' } }}>
-      <Stack.Screen name="index" />
-      <Stack.Protected guard={!!session}>
-        <Stack.Screen name="(tabs)" />
-      </Stack.Protected>
-      <Stack.Protected guard={!session}>
-        <Stack.Screen name="(auth)" />
-      </Stack.Protected>
-    </Stack>
+    <View className="flex-1 bg-bg">
+      <OfflineBanner />
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#090B10' } }}>
+        <Stack.Screen name="index" />
+        <Stack.Protected guard={!!session}>
+          <Stack.Screen name="(tabs)" />
+        </Stack.Protected>
+        <Stack.Protected guard={!session}>
+          <Stack.Screen name="(auth)" />
+        </Stack.Protected>
+      </Stack>
+    </View>
   );
 }
 
@@ -74,16 +84,18 @@ export default function RootLayout() {
   });
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>
-          <LanguageProvider>
-            <AuthProvider>
-              <RootNavigator fontsLoaded={fontsLoaded} />
-            </AuthProvider>
-          </LanguageProvider>
-        </QueryClientProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <ErrorBoundary>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <QueryClientProvider client={queryClient}>
+            <LanguageProvider>
+              <AuthProvider>
+                <RootNavigator fontsLoaded={fontsLoaded} />
+              </AuthProvider>
+            </LanguageProvider>
+          </QueryClientProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }

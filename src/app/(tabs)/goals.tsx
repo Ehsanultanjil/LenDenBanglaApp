@@ -23,7 +23,7 @@ const ICON_OPTIONS = Object.keys(goalIcons) as (keyof typeof goalIcons)[];
 const COLOR_OPTIONS = ['#46D6A8', '#4ADE80', '#FACC15', '#F87171', '#94A3B8'];
 
 export default function GoalsScreen() {
-  const { strings, formatCurrency, formatNumber } = useLanguage();
+  const { strings, formatCurrency, formatNumber, formatMonthYear } = useLanguage();
   const t = strings.goals;
 
   const { data: goals, isPending, isError, refetch } = useGoals();
@@ -166,7 +166,7 @@ export default function GoalsScreen() {
                           <View className="items-end">
                             <Text className="text-2xs text-text-secondary uppercase tracking-wider">{t.deadline}</Text>
                             <Text className="text-sm font-semibold text-text-primary">
-                              {new Date(goal.deadline).toLocaleDateString('en-US', { month: 'short', year: '2-digit' })}
+                              {formatMonthYear(goal.deadline)}
                             </Text>
                           </View>
                         </View>

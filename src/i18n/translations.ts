@@ -8,6 +8,10 @@ export interface AppStrings {
     retry: string;
     saving: string;
     cancel: string;
+    offline: string;
+    today: string;
+    yesterday: string;
+    daysAgo: (n: number) => string;
   };
   auth: {
     tagline: string;
@@ -116,6 +120,13 @@ export interface AppStrings {
     loggedOut: string;
     footer: string;
     logOutFailed: string;
+    deleteAccount: string;
+    deleteAccountSubtitle: string;
+    deleteConfirmTitle: string;
+    deleteConfirmBody: string;
+    deleteConfirmAction: string;
+    deleted: string;
+    deleteFailed: string;
   };
 }
 
@@ -128,6 +139,10 @@ export const translations: Record<'en' | 'bn', AppStrings> = {
       retry: 'Try again',
       saving: 'Saving…',
       cancel: 'Cancel',
+      offline: "You're offline",
+      today: 'Today',
+      yesterday: 'Yesterday',
+      daysAgo: (n: number) => `${n} days ago`,
     },
     auth: {
       tagline: 'Track debts, savings and monthly payments.',
@@ -237,6 +252,14 @@ export const translations: Record<'en' | 'bn', AppStrings> = {
       loggedOut: 'Logged out',
       footer: 'LenDen Bangla v1.0.0 · Made in Bangladesh',
       logOutFailed: 'Could not log out. Please try again.',
+      deleteAccount: 'Delete Account',
+      deleteAccountSubtitle: 'Permanently erase your account and all data',
+      deleteConfirmTitle: 'Delete your account?',
+      deleteConfirmBody:
+        'This permanently deletes your account and every debt, goal and payment you have saved. This cannot be undone.',
+      deleteConfirmAction: 'Delete Forever',
+      deleted: 'Your account has been deleted.',
+      deleteFailed: 'Could not delete your account. Please try again.',
     },
   },
   bn: {
@@ -247,6 +270,10 @@ export const translations: Record<'en' | 'bn', AppStrings> = {
       retry: 'আবার চেষ্টা করুন',
       saving: 'সংরক্ষণ হচ্ছে…',
       cancel: 'বাতিল',
+      offline: 'আপনি অফলাইনে আছেন',
+      today: 'আজ',
+      yesterday: 'গতকাল',
+      daysAgo: (n: number) => `${toBanglaDigits(n)} দিন আগে`,
     },
     auth: {
       tagline: 'দেনা, সঞ্চয় ও মাসিক পেমেন্ট এক জায়গায়।',
@@ -356,6 +383,14 @@ export const translations: Record<'en' | 'bn', AppStrings> = {
       loggedOut: 'লগ আউট হয়েছে',
       footer: 'লেনদেন বাংলা v১.০.০ · বাংলাদেশে তৈরি',
       logOutFailed: 'লগ আউট করা যায়নি। আবার চেষ্টা করুন।',
+      deleteAccount: 'অ্যাকাউন্ট মুছুন',
+      deleteAccountSubtitle: 'আপনার অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে',
+      deleteConfirmTitle: 'অ্যাকাউন্ট মুছে ফেলবেন?',
+      deleteConfirmBody:
+        'এতে আপনার অ্যাকাউন্ট এবং সংরক্ষিত সব দেনা, লক্ষ্য ও পেমেন্ট স্থায়ীভাবে মুছে যাবে। এটি আর ফেরানো যাবে না।',
+      deleteConfirmAction: 'স্থায়ীভাবে মুছুন',
+      deleted: 'আপনার অ্যাকাউন্ট মুছে ফেলা হয়েছে।',
+      deleteFailed: 'অ্যাকাউন্ট মোছা যায়নি। আবার চেষ্টা করুন।',
     },
   },
 };

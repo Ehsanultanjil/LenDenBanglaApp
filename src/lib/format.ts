@@ -8,11 +8,30 @@ export const formatBDT = (amount: number, compact = false) => {
   return `৳${amount.toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
 };
 
-export const formatDate = (iso: string) => {
+interface DateLabels {
+  today: string;
+  yesterday: string;
+  daysAgo: (n: number) => string;
+  locale: string;
+}
+
+const DEFAULT_LABELS: DateLabels = {
+  today: 'Today',
+  yesterday: 'Yesterday',
+  daysAgo: (n) => `${n} days ago`,
+  locale: 'en-US',
+};
+
+/**
+ * Relative labels are injected rather than hardcoded so Bangla users don't get
+ * English dates. `today` is computed per call — capturing it at module load
+ * makes "Today" go stale in a long-running session.
+ */
+export const formatDate = (iso: string, labels: DateLabels = DEFAULT_LABELS) => {
   const d = new Date(iso);
   const diff = Math.floor((Date.now() - d.getTime()) / 86400000);
-  if (diff === 0) return 'Today';
-  if (diff === 1) return 'Yesterday';
-  if (diff < 7) return `${diff} days ago`;
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  if (diff === 0) return labels.today;
+  if (diff === 1) return labels.yesterday;
+  if (diff < 7) return labels.daysAgo(diff);
+  return d.toLocaleDateString(labels.locale, { month: 'short', day: 'numeric' });
 };

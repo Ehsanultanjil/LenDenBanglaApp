@@ -104,9 +104,19 @@ drop policy if exists "own debts" on public.debts;
 create policy "own debts" on public.debts
   for all using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
 
+-- The debt_id check matters: without it a user could pass their own user_id but
+-- someone else's debt_id and write a payment onto a stranger's debt.
 drop policy if exists "own debt_payments" on public.debt_payments;
 create policy "own debt_payments" on public.debt_payments
-  for all using ((select auth.uid()) = user_id) with check ((select auth.uid()) = user_id);
+  for all
+  using ((select auth.uid()) = user_id)
+  with check (
+    (select auth.uid()) = user_id
+    and exists (
+      select 1 from public.debts d
+       where d.id = debt_id and d.user_id = (select auth.uid())
+    )
+  );
 
 drop policy if exists "own goals" on public.goals;
 create policy "own goals" on public.goals
@@ -174,3 +184,34 @@ begin
   return updated;
 end;
 $$;
+
+-- ---------------------------------------------------------------------------
+-- Account deletion.
+-- Google Play REQUIRES any app with account creation to offer in-app deletion,
+-- so this is a store blocker, not a nicety.
+--
+-- Clients cannot touch auth.users directly, hence security definer. Deleting the
+-- auth user cascades through every table via their `on delete cascade` foreign
+-- keys, so this single statement removes all of the user's data.
+--
+-- auth.uid() is read *inside* the function, so a caller can only ever delete
+-- themselves — there is no parameter to tamper with.
+-- ---------------------------------------------------------------------------
+create or replace function public.delete_my_account()
+returns void
+language plpgsql
+security definer set search_path = ''
+as $$
+declare
+  uid uuid := (select auth.uid());
+begin
+  if uid is null then
+    raise exception 'not authenticated';
+  end if;
+
+  delete from auth.users where id = uid;
+end;
+$$;
+
+revoke all on function public.delete_my_account() from public, anon;
+grant execute on function public.delete_my_account() to authenticated;

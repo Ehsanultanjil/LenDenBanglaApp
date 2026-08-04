@@ -53,6 +53,9 @@ export default function SignInScreen() {
       <PressableScale
         onPress={handleSignIn}
         disabled={busy}
+        accessibilityRole="button"
+        accessibilityLabel={strings.auth.signInWithGoogle}
+        accessibilityState={{ disabled: busy, busy }}
         className={`w-full py-4 rounded-2xl bg-accent flex-row items-center justify-center gap-2 ${busy ? 'opacity-50' : ''}`}
       >
         {busy ? (

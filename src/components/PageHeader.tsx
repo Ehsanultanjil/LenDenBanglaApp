@@ -20,6 +20,9 @@ export function PageHeader({ title, subtitle, back = false, right }: PageHeaderP
       {back && (
         <PressableScale
           onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel="Go back"
+          hitSlop={8}
           className="w-10 h-10 rounded-full bg-card items-center justify-center shrink-0"
         >
           <ArrowLeft size={20} color="#FFFFFF" />

@@ -181,7 +181,12 @@ export default function BillsScreen() {
                                           {bill.status === 'overdue' && t.daysOverdue(Math.abs(daysUntil))}
                                         </Text>
                                         {bill.status === 'upcoming' && (
-                                          <PressableScale className="px-2 py-0.5 rounded-full bg-accent/10">
+                                          <PressableScale
+                                            accessibilityRole="button"
+                                            accessibilityLabel={`${t.payNow} — ${bill.name}`}
+                                            hitSlop={{ top: 14, bottom: 14, left: 10, right: 10 }}
+                                            className="px-2.5 py-1 rounded-full bg-accent/10"
+                                          >
                                             <Text className="text-2xs font-semibold text-accent">{t.payNow}</Text>
                                           </PressableScale>
                                         )}

@@ -36,6 +36,9 @@ export function BottomNav({ state, navigation }: BottomTabBarProps) {
       <Pressable
         key={route.key}
         onPress={onPress}
+        accessibilityRole="tab"
+        accessibilityLabel={label}
+        accessibilityState={{ selected: focused }}
         className="flex-1 items-center justify-center active:opacity-60"
       >
         <View className={`items-center gap-1 px-3 py-1.5 rounded-2xl ${focused ? 'bg-accent/15' : ''}`}>
