@@ -10,6 +10,31 @@ Legend for **Fix by**: 🤖 Claude can do it · 👤 you must do it · 🤝 both
 
 ---
 
+## ✅ Fixed in commit `4b7c967`
+
+Everything marked 🤖 below has been implemented and verified:
+
+| Was | Now |
+|---|---|
+| 4 unjustified permissions | **Verified** against the generated *release* manifest: only `INTERNET` + NetInfo's `ACCESS_NETWORK_STATE`/`ACCESS_WIFI_STATE` remain. `SYSTEM_ALERT_WINDOW`, both storage permissions and `VIBRATE` are gone. |
+| `allowBackup="true"` | `false` — confirmed in release manifest |
+| Cleartext traffic | Debug-only; release enforces HTTPS |
+| No account deletion | In-app deletion + `delete_my_account()` RPC, cascades all data |
+| No error boundary | Root boundary with retry, dependency-free so it survives provider failures |
+| No offline handling | NetInfo wired to React Query's `onlineManager` + offline banner |
+| 6 dead controls | Removed; Privacy and Help now open real destinations |
+| RLS hole in `debt_payments` | `with check` now verifies debt ownership |
+| No accessibility | Roles/labels/states on tab bar, back button, sign-in, settings rows |
+| 20dp touch target | Enlarged + `hitSlop` |
+| English-only dates | Localised via the string table and `bn-BD` locale |
+| ~450 KB dead assets | Deleted |
+
+**Still blocking release** — all require you: app icon (#2), privacy policy (#3),
+upload keystore (#5), and the placeholder URLs in `profile.tsx`. Plus the store
+assets and Console setup listed at the bottom.
+
+---
+
 ## Summary
 
 | Severity | Count | Theme |
